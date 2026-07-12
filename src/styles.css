@@ -1,0 +1,285 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-terminal: var(--terminal);
+  --color-terminal-dim: var(--terminal-dim);
+  --color-terminal-glow: var(--terminal-glow);
+  --font-mono: "JetBrains Mono", monospace;
+  --font-tech: "Share Tech Mono", monospace;
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Dark green hacker terminal palette */
+  --background: oklch(0.16 0.02 155);
+  --foreground: oklch(0.9 0.14 150);
+  --card: oklch(0.2 0.025 155);
+  --card-foreground: oklch(0.9 0.12 150);
+  --popover: oklch(0.18 0.02 155);
+  --popover-foreground: oklch(0.9 0.12 150);
+  --primary: oklch(0.78 0.22 148);
+  --primary-foreground: oklch(0.13 0.02 155);
+  --secondary: oklch(0.26 0.04 155);
+  --secondary-foreground: oklch(0.85 0.14 150);
+  --muted: oklch(0.24 0.03 155);
+  --muted-foreground: oklch(0.62 0.08 150);
+  --accent: oklch(0.55 0.16 155);
+  --accent-foreground: oklch(0.95 0.05 150);
+  --destructive: oklch(0.62 0.24 20);
+  --destructive-foreground: oklch(0.97 0.02 150);
+  --border: oklch(0.35 0.08 150 / 40%);
+  --input: oklch(0.35 0.08 150 / 40%);
+  --ring: oklch(0.78 0.22 148);
+
+  --terminal: oklch(0.82 0.24 148);
+  --terminal-dim: oklch(0.5 0.12 150);
+  --terminal-glow: oklch(0.78 0.22 148 / 55%);
+
+  --gradient-terminal: linear-gradient(
+    135deg,
+    oklch(0.82 0.24 148),
+    oklch(0.65 0.18 165)
+  );
+  --shadow-glow: 0 0 24px oklch(0.78 0.22 148 / 45%);
+  --shadow-glow-lg: 0 0 60px oklch(0.78 0.22 148 / 35%);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 155);
+  --foreground: oklch(0.9 0.14 150);
+}
+
+@theme inline {
+  --color-terminal: var(--terminal);
+  --color-terminal-dim: var(--terminal-dim);
+  --color-terminal-glow: var(--terminal-glow);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Scanline overlay + subtle grid for whole page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 2px,
+      oklch(0.5 0.12 150 / 3%) 3px,
+      transparent 4px
+    );
+    mix-blend-mode: screen;
+  }
+
+  ::selection {
+    background: var(--terminal);
+    color: var(--background);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--terminal-dim);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal);
+  }
+}
+
+@utility text-glow {
+  text-shadow: 0 0 10px var(--terminal-glow), 0 0 24px var(--terminal-glow);
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(oklch(0.5 0.12 150 / 8%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.5 0.12 150 / 8%) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility glow-border {
+  border: 1px solid var(--terminal-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+@utility glass-panel {
+  background: oklch(0.22 0.03 155 / 40%);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid oklch(0.5 0.12 150 / 25%);
+}
+
+
+
+@utility card-hack {
+  background: linear-gradient(
+    160deg,
+    oklch(0.22 0.03 155 / 55%),
+    oklch(0.17 0.02 155 / 45%)
+  );
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid oklch(0.5 0.12 150 / 25%);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+@utility card-hack-hover {
+  &:hover {
+    transform: translateY(-6px);
+    border-color: var(--terminal-glow);
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+/* Rotating conic ring animation for profile */
+@keyframes spin-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin-ring-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  24%,
+  55% {
+    opacity: 0.4;
+  }
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility animate-spin-ring {
+  animation: spin-ring 8s linear infinite;
+}
+@utility animate-spin-ring-rev {
+  animation: spin-ring-rev 12s linear infinite;
+}
+@utility animate-flicker {
+  animation: flicker 4s linear infinite;
+}
+@utility cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes ring-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.15;
+  }
+}
+@utility animate-ring-pulse {
+  animation: ring-pulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@utility animate-orbit {
+  animation: orbit 6s linear infinite;
+}
+@utility animate-orbit-slow {
+  animation: orbit 14s linear infinite reverse;
+}
+
+@keyframes hud-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+@utility animate-hud-scan {
+  animation: hud-scan 4s linear infinite;
+}
+@utility animate-spin-60 {
+  animation: spin-ring 60s linear infinite;
+}
+@utility animate-spin-30-rev {
+  animation: spin-ring-rev 30s linear infinite;
+}
+@utility animate-spin-10 {
+  animation: spin-ring 10s ease-in-out infinite;
+}
+@utility animate-spin-4 {
+  animation: spin-ring 4s linear infinite;
+}
